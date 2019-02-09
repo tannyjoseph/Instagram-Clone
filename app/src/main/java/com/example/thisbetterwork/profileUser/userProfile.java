@@ -1,5 +1,6 @@
 package com.example.thisbetterwork.profileUser;
 
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
@@ -14,6 +15,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.example.thisbetterwork.InstaHome.InstaHomeActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -29,6 +31,9 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+
+import java.net.URI;
+import java.net.URL;
 
 public class userProfile extends AppCompatActivity {
 
@@ -48,6 +53,8 @@ public class userProfile extends AppCompatActivity {
     DatabaseReference userDatabase;
     StorageReference mStorageref;
 
+    ProgressDialog mprogress;
+
 
 
     @Override
@@ -60,10 +67,11 @@ public class userProfile extends AppCompatActivity {
         saveProfile = (LinearLayout) findViewById(R.id.saveProf);
         userImage = (ImageView) findViewById(R.id.userImage);
 
-        userDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child(mAuth.getCurrentUser().getUid());
+        mAuth = FirebaseAuth.getInstance();
+        userDatabase = FirebaseDatabase.getInstance().getReference().child("Users");
+
         mStorageref = FirebaseStorage.getInstance().getReference();
 
-        mAuth = FirebaseAuth.getInstance();
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
@@ -83,7 +91,9 @@ public class userProfile extends AppCompatActivity {
             }
         };
 
-        userDatabase = FirebaseDatabase.getInstance().getReference().child("Users");
+
+
+        mprogress = new ProgressDialog(this);
 
 
 
@@ -91,7 +101,7 @@ public class userProfile extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                saveProf();
+
 
             }
         });
@@ -99,45 +109,17 @@ public class userProfile extends AppCompatActivity {
         userImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 pickProfPic();
             }
         });
 
     }
 
-    private void saveProf() {
-
-        final String name, stat;
-
-        name = username.getText().toString().trim();
-        stat = status.getText().toString().trim();
-
-        if(!TextUtils.isEmpty(name) && !TextUtils.isEmpty(stat)){
-
-            if(imageHoldUri != null){
-
-               StorageReference mChildStorage = mStorageref.child("User_dp").child(imageHoldUri.getLastPathSegment());
-               String profPicUrl = imageHoldUri.getLastPathSegment();
-
-               mChildStorage.putFile(imageHoldUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                   @Override
-                   public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-
-                       
-
-                   }
-               });
-
-            }
-
-        }
-
-    }
 
     private void pickProfPic() {
 
-        final CharSequence[] items = {"Take Photo", "Choose from Library",
-                "Cancel"};
+        final CharSequence[] items = {"Take Photo", "Choose from Library", "Cancel"};
         AlertDialog.Builder builder = new AlertDialog.Builder(userProfile.this);
         builder.setTitle("Add Photo!");
 
