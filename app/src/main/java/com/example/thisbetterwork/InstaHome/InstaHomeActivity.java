@@ -109,9 +109,7 @@ public class InstaHomeActivity extends AppCompatActivity {
                                 moveToSetupProfile.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 startActivity(moveToSetupProfile);
 
-                                dbref.child(userId).child("Email").setValue(email);
 
-                                dbref.push().setValue(email);
 
                                 String value = dataSnapshot.getValue(String.class);
                                 Log.i("cnjz", "Value is: " + value);
@@ -176,9 +174,13 @@ public class InstaHomeActivity extends AppCompatActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+
+        switch (id){
+
+            case R.id.action_settings: return true;
+
+            case R.id.signout: mAuth.signOut();
+                               return true;
         }
 
         return super.onOptionsItemSelected(item);

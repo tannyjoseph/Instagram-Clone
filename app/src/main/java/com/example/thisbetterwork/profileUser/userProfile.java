@@ -44,14 +44,14 @@ public class userProfile extends AppCompatActivity {
     ImageView userImage;
     LinearLayout saveProfile;
 
-    Uri imageHoldUri = null;
-
     FirebaseAuth mAuth;
     FirebaseAuth.AuthStateListener mAuthListener;
 
 
     DatabaseReference userDatabase;
     StorageReference mStorageref;
+
+    Uri imageHoldUri = null;
 
     ProgressDialog mprogress;
 
@@ -68,9 +68,6 @@ public class userProfile extends AppCompatActivity {
         userImage = (ImageView) findViewById(R.id.userImage);
 
         mAuth = FirebaseAuth.getInstance();
-        userDatabase = FirebaseDatabase.getInstance().getReference().child("Users");
-
-        mStorageref = FirebaseStorage.getInstance().getReference();
 
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
@@ -95,13 +92,14 @@ public class userProfile extends AppCompatActivity {
 
         mprogress = new ProgressDialog(this);
 
-
+        userDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child(mAuth.getCurrentUser().getUid());;
+        mStorageref = FirebaseStorage.getInstance().getReference();
 
         saveProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-
+                saveprof();
 
             }
         });
@@ -113,6 +111,63 @@ public class userProfile extends AppCompatActivity {
                 pickProfPic();
             }
         });
+
+    }
+
+    private void saveprof() {
+
+        final String name, stat;
+
+        name = username.getText().toString().trim();
+        stat = status.getText().toString().trim();
+
+        if(!TextUtils.isEmpty(name) && !TextUtils.isEmpty(stat)){
+
+            if(imageHoldUri != null){
+
+                mprogress.setTitle("Saving profile");
+                mprogress.setMessage("Please wait");
+                mprogress.show();
+
+                String profpicurl = imageHoldUri.getLastPathSegment();
+                StorageReference mChildStorage = mStorageref.child("User Profile").child(profpicurl);
+
+                mChildStorage.putFile(imageHoldUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+
+                        final Task<Uri> imageUri = mStorageref.getDownloadUrl();
+
+                        userDatabase.child("Username").setValue(name);
+                        userDatabase.child("Status").setValue(stat);
+                        userDatabase.child("userId").setValue(mAuth.getCurrentUser().getUid());
+                        userDatabase.child("ImageUrl").setValue(imageUri.toString());
+
+                        mprogress.dismiss();
+
+                        finish();
+
+                        Intent home = new Intent(userProfile.this, InstaHomeActivity.class);
+                        home.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        startActivity(home);
+
+                        
+
+                    }
+                });
+
+
+            }else {
+
+                Toast.makeText(this, "Please select profile pic", Toast.LENGTH_SHORT).show();
+                
+            }
+
+        }else{
+
+            Toast.makeText(this, "Please enter username and status", Toast.LENGTH_SHORT).show();
+
+        }
 
     }
 
