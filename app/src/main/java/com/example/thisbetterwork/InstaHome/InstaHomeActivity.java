@@ -11,6 +11,8 @@ import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
+
+import android.media.Image;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -19,8 +21,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.thisbetterwork.InstapostInfo.instapostUser;
 import com.example.thisbetterwork.MainActivity;
 import com.example.thisbetterwork.R;
 import com.example.thisbetterwork.profileUser.userProfile;
@@ -55,17 +59,14 @@ public class InstaHomeActivity extends AppCompatActivity {
     FirebaseAuth.AuthStateListener mAuthlistener;
 
     DatabaseReference dbref;
-
-
-
-
+    ImageView addPost;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_insta_home);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.Toolbarcustom);
         setSupportActionBar(toolbar);
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
@@ -111,8 +112,6 @@ public class InstaHomeActivity extends AppCompatActivity {
 
 
 
-                                String value = dataSnapshot.getValue(String.class);
-                                Log.i("cnjz", "Value is: " + value);
 
                             }
 
@@ -141,6 +140,14 @@ public class InstaHomeActivity extends AppCompatActivity {
         };
 
         mAuth.addAuthStateListener(mAuthlistener);
+
+        addPost = (ImageView) findViewById(R.id.cameraadd);
+        addPost.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(InstaHomeActivity.this, instapostUser.class));
+            }
+        });
 
 
     }
@@ -233,9 +240,24 @@ public class InstaHomeActivity extends AppCompatActivity {
 
         @Override
         public Fragment getItem(int position) {
+
+            switch (position){
+
+                case 0: {
+                    return popularPosts.newInstance();
+                }
+
+                case 1: {
+                    return instaPosts.newInstance();
+                }
+
+                case 2: {
+                    return Followers.newInstance();
+                }
+            }
             // getItem is called to instantiate the fragment for the given page.
             // Return a PlaceholderFragment (defined as a static inner class below).
-            return PlaceholderFragment.newInstance(position + 1);
+            return instaPosts.newInstance();
         }
 
         @Override
@@ -243,5 +265,21 @@ public class InstaHomeActivity extends AppCompatActivity {
             // Show 3 total pages.
             return 3;
         }
+
+
+        @Override
+        public CharSequence getPageTitle(int position){
+
+            switch (position){
+
+                case 0: return "POPULAR";
+                case 1: return "POSTS";
+                case 2: return "FOLLOWING";
+
+            }
+
+            return null;
+        }
+
     }
 }

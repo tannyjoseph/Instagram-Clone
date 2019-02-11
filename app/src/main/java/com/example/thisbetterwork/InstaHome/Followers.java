@@ -20,10 +20,10 @@ import com.example.thisbetterwork.R;
  * Use the {@link instaPosts#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class instaPosts extends Fragment {
+public class Followers extends Fragment {
 
 
-    public instaPosts() {
+    public Followers() {
         // Required empty public constructor
     }
 
@@ -36,8 +36,8 @@ public class instaPosts extends Fragment {
      * @return A new instance of fragment popularPosts.
      */
     // TODO: Rename and change types and number of parameters
-    public static instaPosts newInstance() {
-        instaPosts fragment = new instaPosts();
+    public static Followers newInstance() {
+        Followers fragment = new Followers();
         return fragment;
     }
 
@@ -47,7 +47,7 @@ public class instaPosts extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_insta_posts, container, false);
+        return inflater.inflate(R.layout.fragment_followers, container, false);
     }
 
 }

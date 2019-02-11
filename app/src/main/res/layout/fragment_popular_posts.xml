@@ -3,18 +3,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".InstaHome.instaPosts">
+    tools:context=".InstaHome.popularPosts">
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Posts come here" />
-
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height=""
-        android:background="@drawable/instagram_title_image"
-        />
+        android:text="bdjskdd" />
 
 </FrameLayout>
