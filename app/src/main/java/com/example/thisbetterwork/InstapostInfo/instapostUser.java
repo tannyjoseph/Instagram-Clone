@@ -48,6 +48,7 @@ public class instapostUser extends AppCompatActivity {
     EditText Caption;
 
     DatabaseReference reference;
+    StorageReference storageReference;
 
     FirebaseAuth auth;
     FirebaseAuth.AuthStateListener authStateListener;
@@ -66,6 +67,8 @@ public class instapostUser extends AppCompatActivity {
 
         post = (Button) findViewById(R.id.postimage);
         Caption = (EditText) findViewById(R.id.caption);
+
+        reference = FirebaseDatabase.getInstance().getReference().child("Users").child(auth.getCurrentUser().getUid());
 
 
 
@@ -101,17 +104,29 @@ public class instapostUser extends AppCompatActivity {
             if(!TextUtils.isEmpty(cap)){
 
 
-                reference = FirebaseDatabase.getInstance().getReference().child("Users").child(auth.getCurrentUser().getUid());
+                if(imageHoldUri != null){
 
 
-                        reference.child("Posts").child("Caption");
-                        reference.push().setValue(cap);
-                        startActivity(new Intent(instapostUser.this, instaPosts.class));
+                    String url = imageHoldUri.getLastPathSegment();
+
+                    storageReference = FirebaseStorage.getInstance().getReference().child("posts").child(url);
 
 
+                    reference.child("Posts").child("Caption").push().setValue(cap);
+
+
+                    startActivity(new Intent(instapostUser.this, instaPosts.class));
+                }else{
+                    Toast.makeText(this, "Please add an image to the post.", Toast.LENGTH_SHORT).show();
                 }
 
+
+
+                }else{
+                Toast.makeText(this, "Please add a caption!", Toast.LENGTH_SHORT).show();
             }
+
+    }
 
 
 

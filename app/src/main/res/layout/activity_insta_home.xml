@@ -27,5 +27,14 @@
         android:layout_margin="@dimen/fab_margin"
         app:srcCompat="@android:drawable/ic_dialog_email" />
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycleView"
+
+        android:layout_width="5dp"
+        android:layout_height="5dp"
+        android:layout_margin="8dp">
+
+    </androidx.recyclerview.widget.RecyclerView>
+
 
 </LinearLayout>
