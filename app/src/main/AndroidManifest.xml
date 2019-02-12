@@ -17,7 +17,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="android:appComponentFactory">
-        <activity android:name=".InstapostInfo.instapostUser"></activity>
+        <activity android:name=".InstapostInfo.instapostUser"
+            android:screenOrientation="portrait"
+            ></activity>
         <activity
             android:name=".InstaHome.InstaHomeActivity"
             android:label="@string/title_activity_insta_home"
@@ -26,7 +28,9 @@
         <activity
             android:name=".profileUser.userProfile"
             android:screenOrientation="portrait" />
-        <activity android:name="com.theartofdev.edmodo.cropper.CropImageActivity" />
+        <activity android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
+            android:screenOrientation="portrait"
+            />
         <activity
             android:name=".RegisterUser"
             android:screenOrientation="portrait" />

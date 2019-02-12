@@ -2,6 +2,7 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:orientation="vertical"
     android:layout_height="match_parent"
     tools:context=".InstaHome.instaPosts">
 
@@ -11,10 +12,6 @@
         android:layout_height="match_parent"
         android:text="Posts come here" />
 
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height=""
-        android:background="@drawable/instagram_title_image"
-        />
+
 
 </FrameLayout>

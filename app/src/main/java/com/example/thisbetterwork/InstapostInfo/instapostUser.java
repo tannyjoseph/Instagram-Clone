@@ -9,12 +9,26 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
+import com.example.thisbetterwork.InstaHome.instaPosts;
 import com.example.thisbetterwork.R;
 import com.example.thisbetterwork.profileUser.userProfile;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
@@ -29,6 +43,17 @@ public class instapostUser extends AppCompatActivity {
 
     ImageView addpostimage;
 
+    Button post;
+
+    EditText Caption;
+
+    DatabaseReference reference;
+
+    FirebaseAuth auth;
+    FirebaseAuth.AuthStateListener authStateListener;
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,14 +61,58 @@ public class instapostUser extends AppCompatActivity {
         setContentView(R.layout.activity_instapost_user);
 
         addpostimage = (ImageView) findViewById(R.id.addpostimage);
+        auth = FirebaseAuth.getInstance();
+
+
+        post = (Button) findViewById(R.id.postimage);
+        Caption = (EditText) findViewById(R.id.caption);
+
+
+
 
         addpostimage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                addImage();
+                    addImage();
+
+            }
+        });
+
+
+        post.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                savepost();
             }
         });
     }
+
+    private void savepost() {
+
+
+
+            final String cap;
+
+
+            cap = Caption.getText().toString().trim();
+            Log.i("blah", cap);
+
+            if(!TextUtils.isEmpty(cap)){
+
+
+                reference = FirebaseDatabase.getInstance().getReference().child("Users").child(auth.getCurrentUser().getUid());
+
+
+                        reference.child("Posts").child("Caption");
+                        reference.push().setValue(cap);
+                        startActivity(new Intent(instapostUser.this, instaPosts.class));
+
+
+                }
+
+            }
+
 
 
 

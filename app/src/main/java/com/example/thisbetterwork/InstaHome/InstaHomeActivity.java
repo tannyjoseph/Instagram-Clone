@@ -90,10 +90,6 @@ public class InstaHomeActivity extends AppCompatActivity {
 
                     final String userId = user.getUid();
 
-                    final String email = getIntent().getStringExtra("Email");
-
-
-
                     dbref.addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
