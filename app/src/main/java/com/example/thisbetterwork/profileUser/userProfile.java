@@ -92,7 +92,7 @@ public class userProfile extends AppCompatActivity {
 
         mprogress = new ProgressDialog(this);
 
-        userDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child(mAuth.getCurrentUser().getUid());;
+        userDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child(mAuth.getCurrentUser().getUid());
         mStorageref = FirebaseStorage.getInstance().getReference();
 
         saveProfile.setOnClickListener(new View.OnClickListener() {

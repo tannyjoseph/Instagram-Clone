@@ -106,9 +106,6 @@ public class InstaHomeActivity extends AppCompatActivity {
                                 moveToSetupProfile.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 startActivity(moveToSetupProfile);
 
-
-
-
                             }
 
 
